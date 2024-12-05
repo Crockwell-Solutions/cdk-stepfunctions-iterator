@@ -16,17 +16,16 @@
       "Type": "Task",
       "Arguments": {
         "TableName": "${TABLE_NAME}",
-        "IndexName": "GSI-ExecutionTime",
-        "KeyConditionExpression": "#groupName = :groupName",
+        "KeyConditionExpression": "#pk = :pk",
         "ExpressionAttributeNames": {
-          "#groupName": "groupName"
+          "#pk": "PK"
         },
         "ExpressionAttributeValues": {
-          ":groupName": {
-            "S": "demo-schedule-group"
+          ":pk": {
+            "S": "ItemGroup"
           }
         },
-        "Limit": 2
+        "Limit": 30
       },
       "Resource": "arn:aws:states:::aws-sdk:dynamodb:query",
       "Next": "More Results to Fetch?",
@@ -48,17 +47,16 @@
       "Type": "Task",
       "Arguments": {
         "TableName": "${TABLE_NAME}",
-        "IndexName": "GSI-ExecutionTime",
-        "KeyConditionExpression": "#groupName = :groupName",
+        "KeyConditionExpression": "#pk = :pk",
         "ExpressionAttributeNames": {
-          "#groupName": "groupName"
+          "#pk": "PK"
         },
         "ExpressionAttributeValues": {
-          ":groupName": {
-            "S": "demo-schedule-group"
+          ":pk": {
+            "S": "ItemGroup"
           }
         },
-        "Limit": 2,
+        "Limit": 30,
         "ExclusiveStartKey": "{% $states.input.LastEvaluatedKey %}"
       },
       "Resource": "arn:aws:states:::aws-sdk:dynamodb:query",

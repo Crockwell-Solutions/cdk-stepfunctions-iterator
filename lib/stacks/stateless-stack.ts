@@ -36,8 +36,8 @@ export class StatelessStack extends Stack {
     });
 
     // Create a step function that will iterate over the items in the DynamoDb table
-    new StateMachine(this, id, {
-      stateMachineName: 'DynamoDbIterator',
+    const stepFunctionIterator = new StateMachine(this, id, {
+      stateMachineName: 'StepFunctionIterator',
       stateMachineType: StateMachineType.EXPRESS,
       timeout: Duration.minutes(5),
       tracingEnabled: true,
@@ -48,9 +48,9 @@ export class StatelessStack extends Stack {
       },
       definitionBody: DefinitionBody.fromFile('lib/stacks/dynamodb-iterator.asl.json', {}),
       definitionSubstitutions: {
-        //TABLE_NAME: props.dynamoDbIteratorTable.tableName,
-        TABLE_NAME: 'ScheduleStateTable',
+        TABLE_NAME: props.dynamoDbIteratorTable.tableName,
       },
     });
+    props.dynamoDbIteratorTable.grantFullAccess(stepFunctionIterator);
   }
 }
