@@ -1,0 +1,75 @@
+{
+  "Comment": "DynamoDb Iterator",
+  "StartAt": "Setup Results Array",
+  "States": {
+    "Setup Results Array": {
+      "Type": "Pass",
+      "Next": "Query DynamoDb Table",
+      "Assign": {
+        "results": []
+      },
+      "Output": {
+        "lastEvaluatedKey": ""
+      }
+    },
+    "Query DynamoDb Table": {
+      "Type": "Task",
+      "Arguments": {
+        "TableName": "${TABLE_NAME}",
+        "IndexName": "GSI-ExecutionTime",
+        "KeyConditionExpression": "#groupName = :groupName",
+        "ExpressionAttributeNames": {
+          "#groupName": "groupName"
+        },
+        "ExpressionAttributeValues": {
+          ":groupName": {
+            "S": "demo-schedule-group"
+          }
+        },
+        "Limit": 2
+      },
+      "Resource": "arn:aws:states:::aws-sdk:dynamodb:query",
+      "Next": "More Results to Fetch?",
+      "Assign": {
+        "results": "{% $append($results, $states.result.Items) %}"
+      }
+    },
+    "More Results to Fetch?": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Next": "Query DynamoDb Next Page",
+          "Condition": "{% $exists($states.input.LastEvaluatedKey) %}"
+        }
+      ],
+      "Default": "Success"
+    },
+    "Query DynamoDb Next Page": {
+      "Type": "Task",
+      "Arguments": {
+        "TableName": "${TABLE_NAME}",
+        "IndexName": "GSI-ExecutionTime",
+        "KeyConditionExpression": "#groupName = :groupName",
+        "ExpressionAttributeNames": {
+          "#groupName": "groupName"
+        },
+        "ExpressionAttributeValues": {
+          ":groupName": {
+            "S": "demo-schedule-group"
+          }
+        },
+        "Limit": 2,
+        "ExclusiveStartKey": "{% $states.input.LastEvaluatedKey %}"
+      },
+      "Resource": "arn:aws:states:::aws-sdk:dynamodb:query",
+      "Next": "More Results to Fetch?",
+      "Assign": {
+        "results": "{% $append($results, $states.result.Items) %}"
+      }
+    },
+    "Success": {
+      "Type": "Succeed"
+    }
+  },
+  "QueryLanguage": "JSONata"
+}
