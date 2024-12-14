@@ -1,17 +1,7 @@
 {
   "Comment": "DynamoDb Iterator",
-  "StartAt": "Setup Results Array",
+  "StartAt": "Query DynamoDb Table",
   "States": {
-    "Setup Results Array": {
-      "Type": "Pass",
-      "Next": "Query DynamoDb Table",
-      "Assign": {
-        "results": []
-      },
-      "Output": {
-        "lastEvaluatedKey": ""
-      }
-    },
     "Query DynamoDb Table": {
       "Type": "Task",
       "Arguments": {
@@ -30,7 +20,7 @@
       "Resource": "arn:aws:states:::aws-sdk:dynamodb:query",
       "Next": "More Results to Fetch?",
       "Assign": {
-        "results": "{% $append($results, $states.result.Items) %}"
+        "results": "{% $states.result.Items %}"
       }
     },
     "More Results to Fetch?": {
