@@ -38,7 +38,8 @@
       "Choices": [
         {
           "Next": "Query DynamoDb Next Page",
-          "Condition": "{% $exists($states.input.LastEvaluatedKey) %}"
+          "Condition": "{% $exists($states.input.LastEvaluatedKey) %}",
+          "Comment": "Yes"
         }
       ],
       "Default": "Success"

@@ -8,8 +8,6 @@ A sample CDK Typescript Project that creates a Step Function that demonstrates t
 
 Ensure you have the basic setup you will need. Follow the [CDK Installation Guide](https://docs.aws.amazon.com/cdk/v2/guide/getting_started.html) to install CDK and bootstrap your target account
 
-> Ensure that CloudTrail is enabled in your account. This is not performed by the CDK and must be done manually. In many cases, this will be managed by a centralized service such as AWS Control Tower.
-
 Install the dependencies
 ```
 npm install
