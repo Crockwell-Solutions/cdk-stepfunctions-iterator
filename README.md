@@ -1,8 +1,10 @@
 # Step Functions Iterator
 
-A sample CDK Typescript Project that creates a Step Function that demonstrates the Iterator pattern. This pattern is useful when you need to iterate and fetch items from a data source, such as a DynamoDb table, and process them in a Step Function. Traditionally this was difficult to do with Step Functions, but with the introduction of JSONata support and Step Function variables, this is now much simpler.
+A sample CDK Typescript Project that creates a Step Function that demonstrates the Iterator pattern. This pattern is useful when you need to iterate and fetch items from a data source, such as a DynamoDb table, and process them in a Step Function. Traditionally this was difficult to do with Step Functions, but with the introduction of JSONata support and Step Function Variables, this is now much simpler.
 
 ## Description
+
+The blog associated with this project can be found [here](https://dev.to/ianbrumby/handling-paginated-results-seamlessly-with-aws-step-functions-42po)
 
 ## Installation
 
